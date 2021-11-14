@@ -3,7 +3,6 @@ import torch
 import json
 import re
 import emoji
-from pythainlp import word_tokenize
 import numpy as np
 
 class MySentimentModel:
