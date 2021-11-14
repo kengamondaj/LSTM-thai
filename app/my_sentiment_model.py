@@ -22,9 +22,11 @@ class LSTM_fixed_len(torch.nn.Module) :
 
 class MySentimentModel:
     def __init__(self):
-        a_file = open("Models/vocab2index.json", "r")
+        a_file = open("/code/app/Models/vocab2index.json", "r")
+        PATH = "/code/app/Models/model"
         self.vocab2index = json.load(a_file)
-        self.model = LSTM_fixed_len(len(self.vocab2index)+1, 50, 50).load_state_dict(torch.load(PATH))
+        self.model = LSTM_fixed_len(len(self.vocab2index)+1, 50, 50)
+        self.model.load_state_dict(torch.load(PATH))
         self.model.eval()
         pass
     
@@ -73,7 +75,7 @@ class MySentimentModel:
 
     def predict(self,text: str) -> str:
         text = '|'.join(self.process_text(text))
-        test_texts ,length_test_text = self.encode_sentence(test_texts,self.vocab2index )
+        test_texts ,length_test_text = self.encode_sentence(text,self.vocab2index )
         y_pred = self.model(torch.from_numpy(test_texts.reshape(1,-1)), torch.Tensor([length_test_text]))
         y_pred = np.argmax(y_pred.detach().numpy())
         class_map = {0:'neu', 1:'neg', 2:'pos', 3:'q'}
