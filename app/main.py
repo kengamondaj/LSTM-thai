@@ -10,7 +10,7 @@ app = FastAPI()
 
 @app.post("/")
 async def predicts(item: Input):
-    model = MySentimentModel
+    model = MySentimentModel()
     res = model.predict(item.text)
     return {'sentiment':res}
 

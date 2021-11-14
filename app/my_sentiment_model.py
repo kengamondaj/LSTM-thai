@@ -23,8 +23,9 @@ class LSTM_fixed_len(torch.nn.Module) :
 class MySentimentModel:
     def __init__(self):
         a_file = open("Models/vocab2index.json", "r")
-        self.model = torch.load('Models/model')
         self.vocab2index = json.load(a_file)
+        self.model = LSTM_fixed_len(len(self.vocab2index)+1, 50, 50).load_state_dict(torch.load(PATH))
+        self.model.eval()
         pass
     
     def replace_url(self,text):
